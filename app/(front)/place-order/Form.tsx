@@ -1,7 +1,7 @@
 'use client'
 import CheckoutSteps from '@/components/CheckoutSteps'
 import useCartService from '@/lib/hooks/useCartStore'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -10,6 +10,8 @@ import Image from 'next/image'
 
 const Form = () => {
   const router = useRouter()
+  const searchParams = useSearchParams() // Access query parameters
+  
   const {
     paymentMethod,
     shippingAddress,
@@ -49,6 +51,7 @@ const Form = () => {
       }
     }
   )
+
   useEffect(() => {
     if (!paymentMethod) {
       return router.push('/payment')
@@ -57,7 +60,7 @@ const Form = () => {
       return router.push('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentMethod, router])
+  }, [paymentMethod, items, router])
 
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
