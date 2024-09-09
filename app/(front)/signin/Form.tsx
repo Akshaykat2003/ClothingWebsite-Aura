@@ -31,15 +31,21 @@ const Form = () => {
     if (session && session.user) {
       router.push(callbackUrl)
     }
-  }, [callbackUrl, params, router, session])
+  }, [callbackUrl, router, session])
 
   const formSubmit: SubmitHandler<Inputs> = async (form) => {
     const { email, password } = form
-    signIn('credentials', {
-      email,
-      password,
-      callbackUrl,
-    })
+    try {
+      await signIn('credentials', {
+        email,
+        password,
+        callbackUrl,
+        redirect: false, // Important for client-side handling
+      })
+      router.push(callbackUrl)
+    } catch (error) {
+      console.error('Sign-in error:', error)
+    }
   }
 
   return (
