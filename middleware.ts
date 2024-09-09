@@ -10,8 +10,7 @@ const authConfig = {
         /\/payment/,
         /\/place-order/,
         /\/profile/,
-        /\/order\/(.*)/,
-        /\/admin/,
+        /\/order\/(.*)/,  
       ]
       const { pathname } = request.nextUrl
       if (protectedPaths.some((p) => p.test(pathname))) return !!auth
