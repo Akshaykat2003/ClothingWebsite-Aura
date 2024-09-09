@@ -25,16 +25,23 @@ const Form = () => {
   })
 
   useEffect(() => {
-    setValue('fullName', shippingAddress.fullName)
-    setValue('address', shippingAddress.address)
-    setValue('city', shippingAddress.city)
-    setValue('postalCode', shippingAddress.postalCode)
-    setValue('country', shippingAddress.country)
+    if (shippingAddress) {
+      console.log('Shipping Address:', shippingAddress)
+      setValue('fullName', shippingAddress.fullName)
+      setValue('address', shippingAddress.address)
+      setValue('city', shippingAddress.city)
+      setValue('postalCode', shippingAddress.postalCode)
+      setValue('country', shippingAddress.country)
+    }
   }, [setValue, shippingAddress])
 
   const formSubmit: SubmitHandler<ShippingAddress> = async (form) => {
-    saveShippingAddrress(form)
-    router.push('/payment')
+    try {
+      await saveShippingAddrress(form)
+      router.push('/payment')
+    } catch (error) {
+      console.error('Error saving shipping address:', error)
+    }
   }
 
   const FormInput = ({
